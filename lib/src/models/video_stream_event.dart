@@ -11,6 +11,8 @@ abstract class VideoStreamEvent {
 
     switch (type) {
       case 'H264':
+      case 'H264_KEY':
+      case 'H264_SPS':
       case 'AAC':
         return VideoFrameEvent.fromMap(map);
       case 'STATE':

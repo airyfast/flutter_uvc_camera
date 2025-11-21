@@ -110,7 +110,8 @@ class UVCCameraController {
       Future.microtask(() {
         try {
           if (videoEvent is VideoFrameEvent) {
-            if (videoEvent.type == 'H264' && onVideoFrameCallback != null) {
+            if (videoEvent.type.startsWith('H264') &&
+                onVideoFrameCallback != null) {
               onVideoFrameCallback!(videoEvent);
             } else if (videoEvent.type == 'AAC' &&
                 onAudioFrameCallback != null) {
@@ -245,8 +246,8 @@ class UVCCameraController {
 
   /// 设置视频帧率限制
   Future<void> setVideoFrameRateLimit(int fps) async {
-    if (fps < 1 || fps > 60) {
-      throw ArgumentError('帧率必须在1-60之间');
+    if (fps < 0 || fps > 60) {
+      throw ArgumentError('帧率必须在0-60之间 (0 means no limit)');
     }
     await _methodChannel?.invokeMethod('setVideoFrameRateLimit', {'fps': fps});
   }
