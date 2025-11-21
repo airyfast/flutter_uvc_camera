@@ -1,4 +1,4 @@
-package com.chenyeju
+package com.chenyeju 
 
 import android.Manifest
 import android.app.Activity
@@ -13,7 +13,7 @@ import androidx.core.content.PermissionChecker
 class PermissionManager {
     companion object {
         private const val PERMISSION_REQUEST_CODE = 1230
-        
+
         /**
          * Check if camera and storage permissions are granted
          */
@@ -22,15 +22,16 @@ class PermissionManager {
                 context,
                 Manifest.permission.CAMERA
             )
-            val hasStoragePermission = PermissionChecker.checkSelfPermission(
-                context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
             
+            // val hasStoragePermission = PermissionChecker.checkSelfPermission(
+            //     context,
+            //     Manifest.permission.WRITE_EXTERNAL_STORAGE
+            // )
+
             return hasCameraPermission == PermissionChecker.PERMISSION_GRANTED
-                && hasStoragePermission == PermissionChecker.PERMISSION_GRANTED
+                // && hasStoragePermission == PermissionChecker.PERMISSION_GRANTED 
         }
-        
+
         /**
          * Request camera and storage permissions
          * @return true if permissions already granted, false if request was made
@@ -39,22 +40,22 @@ class PermissionManager {
             if (activity == null) {
                 return false
             }
-            
+
             if (hasRequiredPermissions(activity)) {
                 return true
             }
-            
+
             ActivityCompat.requestPermissions(
                 activity,
                 arrayOf(
                     Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    // Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 ),
                 PERMISSION_REQUEST_CODE
             )
             return false
         }
-        
+
         /**
          * Check if permission result is successful
          */
@@ -62,13 +63,13 @@ class PermissionManager {
             if (requestCode != PERMISSION_REQUEST_CODE) {
                 return false
             }
-            
+
             return grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }
         }
-        
+
         /**
          * Get permission request code
          */
         fun getPermissionRequestCode() = PERMISSION_REQUEST_CODE
     }
-} 
+}
